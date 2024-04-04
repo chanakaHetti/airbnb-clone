@@ -5,7 +5,9 @@ import { Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
 import Listing from '@/components/Listings';
 import listinData from '@/assets/data/airbnb-listings.json';
+import listinDataGeo from '@/assets/data/airbnb-listings.geo.json';
 import { Listing as ListingInterface } from '@/interfaces/listing';
+import ListingMap from '@/components/ListingMap';
 
 const Page = () => {
   const [category, setCategory] = useState('Tiny homes');
@@ -25,7 +27,8 @@ const Page = () => {
           header: () => <ExploreHeader onCategoryChanged={onDataChanged} />,
         }}
       />
-      <Listing listing={items} category={category} />
+      {/* <Listing listing={items} category={category} /> */}
+      <ListingMap listings={listinDataGeo} />
     </View>
   );
 };
