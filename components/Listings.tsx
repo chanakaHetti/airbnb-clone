@@ -14,15 +14,26 @@ import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 
 import { defaultStyles } from '@/constants/Styles';
 import { Listing as ListingInterface } from '@/interfaces/listing';
+import {
+  BottomSheetFlatList,
+  BottomSheetFlatListMethods,
+} from '@gorhom/bottom-sheet';
 
 interface Props {
   listing: ListingInterface[];
   category: string;
+  refresh: number;
 }
 
-const Listing = ({ listing: items, category }: Props) => {
+const Listings = ({ listing: items, category, refresh }: Props) => {
   const [loading, setLoading] = useState(false);
-  const listRef = useRef<FlatList>(null);
+  const listRef = useRef<BottomSheetFlatListMethods>(null);
+
+  useEffect(() => {
+    if (refresh) {
+      listRef.current?.scrollToOffset({ offset: 0, animated: true });
+    }
+  }, [refresh]);
 
   useEffect(() => {
     setLoading(true);
@@ -74,10 +85,13 @@ const Listing = ({ listing: items, category }: Props) => {
 
   return (
     <View style={defaultStyles.container}>
-      <FlatList
+      <BottomSheetFlatList
         renderItem={renderRow}
         ref={listRef}
         data={loading ? [] : items}
+        ListHeaderComponent={
+          <Text style={styles.info}>{items.length} Homes</Text>
+        }
       />
     </View>
   );
@@ -94,6 +108,12 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 10,
   },
+  info: {
+    textAlign: 'center',
+    fontFamily: 'mon-sb',
+    fontSize: 16,
+    marginTop: 4,
+  },
 });
 
-export default Listing;
+export default Listings;

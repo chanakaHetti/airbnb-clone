@@ -21,5 +21,5 @@ const tintColorDark = '#fff';
 export default {
   primary: '#ff385c',
   grey: '#5d5e5d',
-  dark: '1a1a1a',
+  dark: '#1a1a1a',
 };
